@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">RPNCalculator</string>
     <string name="action_settings">Settings</string>
+    <string name="multiply">Multiply</string>
+    <string name="divide_sign">÷</string>
+    <string name="multiply_sign">✕</string>
+    <string name="long_minus_sign">−</string>
+    <string name="square_root_sign">√</string>
 </resources>
