@@ -6,4 +6,5 @@
     <string name="multiply_sign">✕</string>
     <string name="long_minus_sign">−</string>
     <string name="square_root_sign">√</string>
+    <string name="enter_sign">⏎</string>
 </resources>
