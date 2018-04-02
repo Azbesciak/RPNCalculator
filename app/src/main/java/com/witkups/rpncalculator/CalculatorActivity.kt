@@ -1,13 +1,13 @@
 package com.witkups.rpncalculator
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.content_calculator.*
+
 
 class CalculatorActivity : AppCompatActivity() {
 
@@ -15,6 +15,7 @@ class CalculatorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
         setSupportActionBar(toolbar)
+        attachButtons()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -34,7 +35,22 @@ class CalculatorActivity : AppCompatActivity() {
     }
 
     private fun attachButtons() {
-        listOf(button0, button1, button2, button3, button5, button6, button7, button8, button9)
-                .mapIndexed { i, btn -> NumberButton(btn, i) }
+        listOf(button0, button1, button2, button3, button4,
+                button5, button6, button7, button8, button9)
+                .forEachIndexed { i, btn -> StackOperator.attachOperator(btn, i.toString()) }
+        StackOperator.attachOperator(buttonDecimal, ".")
+        listOf(buttonMul to MulOperator, buttonSub to MinusOperator,
+                buttonDiv to DivOperator, buttonAdd to PlusOperator,
+                buttonEnter to EnterOperator, buttonSwap to SwapOperator,
+                buttonExp to ExpOperator, buttonSqrt to SqrtOperator,
+                buttonAC to StackCleaner, buttonDrop to DropOperator)
+                .forEach { StackOperator.attachOperator(it.first, it.second) }
+        StackOperator.attachOperator(buttonUndo, StackProvider::undo)
+        stackView.apply {
+            layoutManager = LinearLayoutManager(this@CalculatorActivity)
+            adapter = StackViewerAdapter(this@CalculatorActivity).apply {
+                StackProvider.registerListener(this::update)
+            }
+        }
     }
 }
