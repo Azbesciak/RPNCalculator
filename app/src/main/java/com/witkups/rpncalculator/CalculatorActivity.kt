@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_calculator.*
+import kotlinx.android.synthetic.main.content_calculator.*
 
 class CalculatorActivity : AppCompatActivity() {
 
@@ -30,5 +31,10 @@ class CalculatorActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun attachButtons() {
+        listOf(button0, button1, button2, button3, button5, button6, button7, button8, button9)
+                .mapIndexed { i, btn -> NumberButton(btn, i) }
     }
 }

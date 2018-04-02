@@ -88,48 +88,48 @@
 
             <Button
                 android:id="@+id/button7"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="0"
                 android:layout_row="1"
                 android:text="7" />
 
             <Button
                 android:id="@+id/button8"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="1"
                 android:layout_row="1"
                 android:text="8" />
 
             <Button
                 android:id="@+id/button9"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="2"
                 android:layout_row="1"
                 android:text="9" />
 
             <Button
                 android:id="@+id/button4"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="0"
                 android:layout_row="2"
                 android:text="4" />
 
             <Button
                 android:id="@+id/button5"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="1"
                 android:layout_row="2"
                 android:text="5" />
 
             <Button
                 android:id="@+id/button6"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="2"
                 android:layout_row="2"
                 android:text="6" />
@@ -137,24 +137,24 @@
 
             <Button
                 android:id="@+id/button1"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="0"
                 android:layout_row="3"
                 android:text="1" />
 
             <Button
                 android:id="@+id/button2"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="1"
                 android:layout_row="3"
                 android:text="2" />
 
             <Button
                 android:id="@+id/button3"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="2"
                 android:layout_row="3"
                 android:text="3" />
@@ -162,24 +162,24 @@
 
             <Button
                 android:id="@+id/button0"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="0"
                 android:layout_row="4"
                 android:text="0" />
 
             <Button
                 android:id="@+id/buttonSign"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="1"
                 android:layout_row="4"
                 android:text="+/-" />
 
             <Button
                 android:id="@+id/buttonDecimal"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="2"
                 android:layout_row="4"
                 android:text="." />
@@ -200,8 +200,8 @@
 
             <Button
                 android:id="@+id/buttonSqrt"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="4"
                 android:layout_row="1"
                 android:text="@string/square_root_sign"
@@ -210,32 +210,32 @@
 
             <Button
                 android:id="@+id/buttonMul"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="3"
                 android:layout_row="2"
                 android:text="@string/multiply_sign" />
 
             <Button
                 android:id="@+id/buttonAdd"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="3"
                 android:layout_row="3"
                 android:text="+" />
 
             <Button
                 android:id="@+id/buttonEnter"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="3"
                 android:layout_row="4"
                 android:text="\u23CE" />
 
             <Button
                 android:id="@+id/buttonExp"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="3"
                 android:layout_row="1"
                 android:text="EXP"
@@ -244,16 +244,16 @@
 
             <Button
                 android:id="@+id/buttonDiv"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="4"
                 android:layout_row="2"
                 android:text="@string/divide_sign" />
 
             <Button
                 android:id="@+id/buttonSub"
-                android:layout_width="@dimen/number_button_size"
-                android:layout_height="@dimen/number_button_size"
+                android:layout_width="@dimen/number_port_button_size"
+                android:layout_height="@dimen/number_port_button_size"
                 android:layout_column="4"
                 android:layout_row="3"
                 android:text="@string/long_minus_sign" />

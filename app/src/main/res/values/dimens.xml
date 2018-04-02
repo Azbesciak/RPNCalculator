@@ -1,5 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="number_button_size">60dp</dimen>
+    <dimen name="number_port_button_size">60dp</dimen>
+    <dimen name="number_land_button_size">40dp</dimen>
     <dimen name="upper_button_height">40dp</dimen>
 </resources>
