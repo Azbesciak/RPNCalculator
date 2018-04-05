@@ -8,7 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
     </style>
-
+    <style name="ButtonFontStyle">
+        <item name="android:textSize">18sp</item>
+    </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

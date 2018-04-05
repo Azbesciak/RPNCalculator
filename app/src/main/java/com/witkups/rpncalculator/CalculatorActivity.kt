@@ -1,10 +1,12 @@
 package com.witkups.rpncalculator
 
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.content_calculator.*
 
@@ -37,21 +39,35 @@ class CalculatorActivity : AppCompatActivity() {
     private fun attachButtons() {
         listOf(button0, button1, button2, button3, button4,
                 button5, button6, button7, button8, button9)
-                .forEachIndexed { i, btn -> StackOperator.attachOperator(btn, i.toString()) }
+                .forEachIndexed { i, btn ->
+                    applyTextIncrease(btn)
+                    StackOperator.attachOperator(btn, i.toString())
+                }
         StackOperator.attachOperator(buttonDecimal, ".")
+        applyTextIncrease(buttonDecimal)
         listOf(buttonMul to MulOperator, buttonSub to MinusOperator,
                 buttonDiv to DivOperator, buttonAdd to PlusOperator,
                 buttonEnter to EnterOperator, buttonSwap to SwapOperator,
                 buttonExp to ExpOperator, buttonSqrt to SqrtOperator,
                 buttonAC to StackCleaner, buttonDrop to DropOperator,
                 buttonBackspace to BackSpaceOperator)
-                .forEach { StackOperator.attachOperator(it.first, it.second) }
+                .forEach {
+                    applyTextIncrease(it.first)
+                    StackOperator.attachOperator(it.first, it.second)
+                }
         StackOperator.attachOperator(buttonUndo, StackProvider::undo)
+        applyTextIncrease(buttonUndo)
         stackView.apply {
             layoutManager = LinearLayoutManager(this@CalculatorActivity)
             adapter = StackViewerAdapter(this@CalculatorActivity).apply {
                 StackProvider.registerListener(this::update)
             }
+        }
+    }
+
+    private fun applyTextIncrease(btn: Button) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            btn.setTextAppearance(R.style.ButtonFontStyle)
         }
     }
 }
