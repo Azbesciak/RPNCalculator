@@ -43,7 +43,8 @@ class CalculatorActivity : AppCompatActivity() {
                 buttonDiv to DivOperator, buttonAdd to PlusOperator,
                 buttonEnter to EnterOperator, buttonSwap to SwapOperator,
                 buttonExp to ExpOperator, buttonSqrt to SqrtOperator,
-                buttonAC to StackCleaner, buttonDrop to DropOperator)
+                buttonAC to StackCleaner, buttonDrop to DropOperator,
+                buttonBackspace to BackSpaceOperator)
                 .forEach { StackOperator.attachOperator(it.first, it.second) }
         StackOperator.attachOperator(buttonUndo, StackProvider::undo)
         stackView.apply {
