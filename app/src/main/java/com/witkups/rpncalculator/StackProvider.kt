@@ -2,7 +2,7 @@ package com.witkups.rpncalculator
 
 object StackProvider {
     private val stackHistory = mutableListOf(RPNStack())
-    private const val maxHistoryLength = 10
+    private const val maxHistoryLength = 50
     private var listener: ((RPNStack) -> Unit)? = null
 
     fun registerListener(l: (RPNStack) -> Unit) {

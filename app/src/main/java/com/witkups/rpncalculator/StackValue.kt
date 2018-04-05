@@ -31,6 +31,8 @@ data class NumberValue(val value: String = "") : StackValue() {
     fun exp(other: NumberValue) = merge(other, ::pow)
 
     private fun getVal() = if (value.isBlank()) 0.0 else value.toDouble()
+
+    fun isEmpty() = value.isBlank()
 }
 
 abstract class UnaryOperator : StackValue() {
@@ -94,13 +96,22 @@ object ExpOperator : BiOperator() {
 }
 
 object EnterOperator : StackValue() {
-    override fun onVisit(stack: RPNStack) = RPNStack(stack.items + NumberValue())
+    override fun onVisit(stack: RPNStack) =
+            if (stack.hasEmptyTopValue()) stack
+            else RPNStack(stack.items + NumberValue())
 }
 
-object StackCleaner: StackValue() {
+object StackCleaner : StackValue() {
     override fun onVisit(stack: RPNStack) = RPNStack()
 }
 
-object DropOperator: StackValue() {
+object DropOperator : StackValue() {
     override fun onVisit(stack: RPNStack) = RPNStack(stack.items.dropLast(1))
+}
+
+object BackSpaceOperator: UnaryOperator() {
+    override fun change(value: NumberValue) =
+            if (value.isEmpty()) value
+            else NumberValue(value.value.dropLast(1))
+
 }

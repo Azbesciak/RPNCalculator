@@ -3,7 +3,6 @@ package com.witkups.rpncalculator
 import android.widget.Button
 
 object StackOperator {
-
     fun attachOperator(button: Button, value: String) {
         val operator = NumberValue(value)
         attachOperator(button, operator)
