@@ -1,12 +1,15 @@
 package com.witkups.rpncalculator
 
 import java.lang.Math.*
+import java.math.BigDecimal
 
 sealed class StackValue {
     abstract fun onVisit(stack: RPNStack): RPNStack
 }
 
 data class NumberValue(val value: String = "") : StackValue() {
+    constructor(value: BigDecimal) : this(value = value.stripTrailingZeros().toPlainString())
+
     override fun onVisit(stack: RPNStack) =
             if (stack.items.isNotEmpty()) {
                 val newValue = NumberValue(stack.items.last().value + value)
@@ -17,20 +20,26 @@ data class NumberValue(val value: String = "") : StackValue() {
 
     operator fun plus(other: NumberValue) = merge(other) { a, b -> a + b }
 
-    operator fun unaryMinus() = NumberValue((-getVal()).toString())
+    operator fun unaryMinus() = NumberValue(
+            when {
+                isEmpty() -> "-"
+                value.startsWith("-") -> value.drop(1)
+                else -> "-$value"
+            }
+    )
 
     operator fun times(other: NumberValue) = merge(other) { a, b -> a * b }
 
     operator fun div(other: NumberValue) = merge(other) { a, b -> a / b }
 
-    private fun merge(other: NumberValue, oper: (Double, Double) -> Double) =
-            NumberValue(oper(getVal(), other.getVal()).toString())
+    private fun merge(other: NumberValue, oper: (BigDecimal, BigDecimal) -> BigDecimal) =
+            NumberValue(oper(getVal(), other.getVal()))
 
-    fun sqrt() = NumberValue(sqrt(getVal()).toString())
+    fun sqrt() = NumberValue(BigDecimal(sqrt(getVal().toDouble())))
 
-    fun exp(other: NumberValue) = merge(other, ::pow)
+    fun exp(other: NumberValue) = merge(other) {a, b -> BigDecimal(pow(a.toDouble(), b.toDouble()))}
 
-    private fun getVal() = if (value.isBlank()) 0.0 else value.toDouble()
+    private fun getVal() = if (isEmpty()) BigDecimal.ZERO else BigDecimal(value)
 
     fun isEmpty() = value.isBlank()
 }

@@ -12,15 +12,19 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/stackView"
         android:layout_width="0dp"
-        android:layout_height="202dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/keyboardLayout"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.37" />
 
     <GridLayout
         android:id="@+id/keyboardLayout"
@@ -31,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stackView">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <GridLayout
             android:id="@+id/numbersLayout"
@@ -259,6 +263,7 @@
                 android:layout_row="3"
                 android:layout_rowWeight="1"
                 android:text="@string/enter_sign" />
+
             <Button
                 android:id="@+id/buttonBackspace"
                 android:layout_width="0dp"

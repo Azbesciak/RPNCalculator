@@ -3,6 +3,7 @@ package com.witkups.rpncalculator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ class StackViewerAdapter(context: Context) : RecyclerView.Adapter<StackViewHolde
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: StackViewHolder?, position: Int) {
         val newValue = items[position]
-        holder?.textView?.text = "${position + 1} ${newValue.value}"
+        holder?.textView?.text = Html.fromHtml("<span style='color:#9E9E9E'>${position + 1}.</span>  ${newValue.value}")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): StackViewHolder {
