@@ -13,16 +13,21 @@ import android.widget.TextView
 class StackViewerAdapter(context: Context) : RecyclerView.Adapter<StackViewHolder>() {
     private val inflater = LayoutInflater.from(context)
     private var items = listOf<NumberValue>()
-
+    private var hasError = false
     fun update(stack: RPNStack) {
         items = stack.items.reversed()
+        hasError = stack.hasError()
         notifyDataSetChanged()
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: StackViewHolder?, position: Int) {
         val newValue = items[position]
-        holder?.textView?.text = Html.fromHtml("<span style='color:#9E9E9E'>${position + 1}.</span>  ${newValue.value}")
+
+        holder?.textView?.text = Html.fromHtml(
+                if (position == 0 && hasError) "<span style='color:#E91E63'>${newValue.value}</span>"
+                else "<span style='color:#9E9E9E'>${position + 1}.</span>  ${newValue.value}"
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): StackViewHolder {
