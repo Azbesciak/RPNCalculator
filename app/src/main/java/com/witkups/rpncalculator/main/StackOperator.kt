@@ -1,4 +1,4 @@
-package com.witkups.rpncalculator
+package com.witkups.rpncalculator.main
 
 import android.widget.Button
 

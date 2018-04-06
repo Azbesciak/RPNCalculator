@@ -1,4 +1,4 @@
-package com.witkups.rpncalculator
+package com.witkups.rpncalculator.main
 
 import java.lang.Math.*
 import java.math.BigDecimal
@@ -37,7 +37,7 @@ data class NumberValue(val value: String = "") : StackValue() {
 
     fun sqrt() = NumberValue(BigDecimal(sqrt(getVal().toDouble())))
 
-    fun exp(other: NumberValue) = merge(other) {a, b -> BigDecimal(pow(a.toDouble(), b.toDouble()))}
+    fun exp(other: NumberValue) = merge(other) { a, b -> BigDecimal(pow(a.toDouble(), b.toDouble()))}
 
     private fun getVal() = if (isEmpty()) BigDecimal.ZERO else BigDecimal(value)
 

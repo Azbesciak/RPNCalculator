@@ -1,4 +1,4 @@
-package com.witkups.rpncalculator
+package com.witkups.rpncalculator.main
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.witkups.rpncalculator.R
 
 
 class StackViewerAdapter(context: Context) : RecyclerView.Adapter<StackViewHolder>() {

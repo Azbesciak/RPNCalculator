@@ -1,4 +1,4 @@
-package com.witkups.rpncalculator
+package com.witkups.rpncalculator.main
 
 class RPNStack(items: List<NumberValue> = listOf(), private val hasError: Boolean = false) {
     val items: List<NumberValue> = if (items.isEmpty()) listOf(NumberValue()) else items
