@@ -17,6 +17,10 @@ import android.preference.RingtonePreference
 import android.text.TextUtils
 import android.view.MenuItem
 import com.witkups.rpncalculator.R
+import com.witkups.rpncalculator.main.NumberValue
+import com.witkups.rpncalculator.main.StackValue
+import java.math.MathContext
+import java.math.RoundingMode
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
@@ -50,22 +54,12 @@ class SettingsActivity : AppCompatPreferenceActivity() {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    override fun onBuildHeaders(target: List<PreferenceActivity.Header>) {
-        loadHeadersFromResource(R.xml.pref_headers, target)
-    }
-
-    /**
      * This method stops fragment injection in malicious applications.
      * Make sure to deny any unknown fragments here.
      */
     override fun isValidFragment(fragmentName: String): Boolean {
         return PreferenceFragment::class.java.name == fragmentName
                 || GeneralPreferenceFragment::class.java.name == fragmentName
-                || DataSyncPreferenceFragment::class.java.name == fragmentName
-                || NotificationPreferenceFragment::class.java.name == fragmentName
     }
 
     /**
@@ -79,12 +73,24 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             addPreferencesFromResource(R.xml.pref_general)
             setHasOptionsMenu(true)
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"))
-            bindPreferenceSummaryToValue(findPreference("example_list"))
+            bindPreferenceSummaryToValue(findPreference(NumberValue.PRECISION_KEY), Preference.OnPreferenceChangeListener {
+                pref, value ->
+                val strVal = value.toString()
+                if (strVal.isBlank()) {
+                    NumberValue.precision = null
+                    pref.summary = "Unlimited"
+                } else {
+                    NumberValue.precision = strVal.toInt()
+                    pref.summary = strVal
+                }
+                true
+            })
+            bindPreferenceSummaryToValue(findPreference(NumberValue.ROUNDING_KEY), Preference.OnPreferenceChangeListener {
+                pref, value ->
+                val index = value.toString().toInt()
+                NumberValue.setRoundingMode(index)
+                true
+            })
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -97,61 +103,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         }
     }
 
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    class NotificationPreferenceFragment : PreferenceFragment() {
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.pref_notification)
-            setHasOptionsMenu(true)
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
-        }
-
-        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == android.R.id.home) {
-                startActivity(Intent(activity, SettingsActivity::class.java))
-                return true
-            }
-            return super.onOptionsItemSelected(item)
-        }
-    }
-
-    /**
-     * This fragment shows data and sync preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    class DataSyncPreferenceFragment : PreferenceFragment() {
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.pref_data_sync)
-            setHasOptionsMenu(true)
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"))
-        }
-
-        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            if (id == android.R.id.home) {
-                startActivity(Intent(activity, SettingsActivity::class.java))
-                return true
-            }
-            return super.onOptionsItemSelected(item)
-        }
-    }
 
     companion object {
 
@@ -174,32 +125,11 @@ class SettingsActivity : AppCompatPreferenceActivity() {
                         else
                             null)
 
-            } else if (preference is RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.pref_ringtone_silent)
-
-                } else {
-                    val ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue))
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null)
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        val name = ringtone.getTitle(preference.getContext())
-                        preference.setSummary(name)
-                    }
-                }
-
             } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
-                preference.summary = stringValue
+                preference.summary = if(stringValue.isBlank()) preference.summary else stringValue
+
             }
             true
         }
@@ -221,12 +151,10 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
          * @see .sBindPreferenceSummaryToValueListener
          */
-        private fun bindPreferenceSummaryToValue(preference: Preference) {
+        private fun bindPreferenceSummaryToValue(preference: Preference, listener: Preference.OnPreferenceChangeListener = sBindPreferenceSummaryToValueListener) {
             // Set the listener to watch for value changes.
-            preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
+            preference.onPreferenceChangeListener = listener
 
-            // Trigger the listener immediately with the preference's
-            // current value.
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                     PreferenceManager
                             .getDefaultSharedPreferences(preference.context)

@@ -3,12 +3,15 @@ package com.witkups.rpncalculator.main
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.preference.PreferenceActivity
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import com.witkups.rpncalculator.*
+import com.witkups.rpncalculator.settings.AppCompatPreferenceActivity
 import com.witkups.rpncalculator.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.content_calculator.*
@@ -21,6 +24,9 @@ class CalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_calculator)
         setSupportActionBar(toolbar)
         attachButtons()
+        val roundingMode = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                .getString(NumberValue.ROUNDING_KEY, NumberValue.DEFAULT_ROUNDING_MODE.toString())
+        NumberValue.setRoundingMode(roundingMode.toInt())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -36,6 +42,8 @@ class CalculatorActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment::class.java.name)
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true )
                 startActivity(intent)
                 true
             }

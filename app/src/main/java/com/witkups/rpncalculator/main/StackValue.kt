@@ -2,13 +2,28 @@ package com.witkups.rpncalculator.main
 
 import java.lang.Math.*
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 sealed class StackValue {
     abstract fun onVisit(stack: RPNStack): RPNStack
 }
 
 data class NumberValue(val value: String = "") : StackValue() {
-    constructor(value: BigDecimal) : this(value = value.stripTrailingZeros().toPlainString())
+    companion object {
+        const val PRECISION_KEY = "value_precision"
+        const val ROUNDING_KEY = "rounding_mode"
+        const val DEFAULT_ROUNDING_MODE = 4
+        var precision: Int? = null
+        private var roundingMode: RoundingMode? = null
+        private fun BigDecimal.align() =
+                if (precision != null) setScale(precision!!, roundingMode!!).stripTrailingZeros()
+                else this
+
+        fun setRoundingMode(index: Int) {
+            roundingMode = RoundingMode.valueOf(index)
+        }
+    }
+    constructor(value: BigDecimal) : this(value = value.align().stripTrailingZeros().toPlainString())
 
     override fun onVisit(stack: RPNStack) =
             if (stack.items.isNotEmpty()) {

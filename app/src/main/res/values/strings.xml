@@ -20,8 +20,8 @@
         based on your message history
     </string>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
+    <string name="pref_title_value_precision">Results precision</string>
+    <string name="pref_default_value_precision">Unlimited</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
@@ -38,22 +38,24 @@
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
+    <string name="pref_title_rounding_mode">Rounding mode</string>
+    <string-array name="pref_titles_rounding_mode">
+        <item>Up</item>
+        <item>Down</item>
+        <item>Ceiling</item>
+        <item>Floor</item>
+        <item>Half up</item>
+        <item>Half down</item>
+        <item>Half even</item>
     </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
+    <string-array name="pref_values_rounding_mode">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
     </string-array>
 
     <string-array name="list_preference_entries">
