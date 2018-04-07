@@ -32,8 +32,13 @@ data class NumberValue(val value: String = "") : StackValue() {
 
     override fun onVisit(stack: RPNStack) =
             if (stack.items.isNotEmpty()) {
-                val newValue = NumberValue(stack.items.last().value + value)
-                RPNStack(stack.items.dropLast(1) + newValue)
+                val lastValue = stack.items.last().value
+                if (value == "." && lastValue.contains(".")) {
+                    stack
+                } else {
+                    val newValue = NumberValue(lastValue + value)
+                    RPNStack(stack.items.dropLast(1) + newValue)
+                }
             } else {
                 RPNStack(listOf(this))
             }
