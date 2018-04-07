@@ -10,6 +10,7 @@
         android:id="@+id/stackValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="?colorStack"
         android:textSize="20sp"/>
 
 </LinearLayout>

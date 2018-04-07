@@ -3,4 +3,5 @@
     <attr name="colorNumbers" format="reference|color" />
     <attr name="colorActions" format="reference|color" />
     <attr name="colorOperators" format="reference|color" />
+    <attr name="colorStack" format="reference|color" />
 </resources>

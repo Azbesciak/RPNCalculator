@@ -35,6 +35,7 @@ import java.math.RoundingMode
 class SettingsActivity : AppCompatPreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        updateTheme(true)
         super.onCreate(savedInstanceState)
         setupActionBar()
     }
@@ -73,30 +74,22 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             addPreferencesFromResource(R.xml.pref_general)
             setHasOptionsMenu(true)
 
-            bindPreferenceSummaryToValue(findPreference(NumberValue.PRECISION_KEY), Preference.OnPreferenceChangeListener {
-                pref, value ->
+            bindPreferenceSummaryToValue(findPreference(NumberValue.PRECISION_KEY), PrefLis { pref, value ->
                 val strVal = value.toString()
                 NumberValue.setPrecision(strVal)
-                if (strVal.isBlank()) {
-                    pref.summary = "Unlimited"
-                } else {
-                    pref.summary = strVal
-                }
+                updatePrecision(pref, strVal)
                 true
             })
-            bindPreferenceSummaryToValue(findPreference(NumberValue.ROUNDING_KEY), Preference.OnPreferenceChangeListener {
-                pref, value ->
-                NumberValue.setRoundingMode(value.toString())
-                true
-            })
-            bindPreferenceSummaryToValue(findPreference(ThemeManager.THEME_PREF_KEY), Preference.OnPreferenceChangeListener {
-                pref, value ->
+            bindPreferenceSummaryToValue(findPreference(NumberValue.ROUNDING_KEY), PrefLis { pref, value ->
                 val stringValue = value.toString()
-                if (pref is ListPreference) {
-                    val index = pref.findIndexOfValue(stringValue)
-                    pref.setSummary( if (index >= 0) pref.entries[index] else null)
-                }
-                activity.setTheme(ThemeManager.getTheme(stringValue))
+                NumberValue.setRoundingMode(stringValue)
+                updateSummaryForList(pref, stringValue)
+                true
+            })
+            bindPreferenceSummaryToValue(findPreference(ThemeManager.THEME_PREF_KEY), PrefLis { pref, value ->
+                val stringValue = value.toString()
+                updateSummaryForList(pref, stringValue)
+                activity.updateThemeWithRecreate(true, theme = stringValue)
                 true
             })
         }
@@ -111,35 +104,35 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         }
     }
 
-
     companion object {
 
         /**
          * A preference value change listener that updates the preference's summary
          * to reflect its new value.
          */
-        private val sBindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, value ->
+        private val sBindPreferenceSummaryToValueListener = PrefLis { preference, value ->
             val stringValue = value.toString()
-
             if (preference is ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                val index = preference.findIndexOfValue(stringValue)
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        if (index >= 0)
-                            preference.entries[index]
-                        else
-                            null)
-
+               updateSummaryForList(preference, stringValue)
             } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.summary = if(stringValue.isBlank()) preference.summary else stringValue
-
+                updatePrecision(preference, stringValue)
             }
             true
+        }
+
+        private fun updateSummaryForList(pref: Preference, value: String) {
+            if (pref is ListPreference) {
+                val index = pref.findIndexOfValue(value)
+                pref.summary = if (index >= 0) pref.entries[index] else null
+            }
+        }
+
+        private fun updatePrecision(pref: Preference, value: String) {
+            if (value.isBlank()) {
+                pref.summary = "Unlimited"
+            } else {
+                pref.summary = value
+            }
         }
 
         /**
@@ -159,7 +152,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
          * @see .sBindPreferenceSummaryToValueListener
          */
-        private fun bindPreferenceSummaryToValue(preference: Preference, listener: Preference.OnPreferenceChangeListener = sBindPreferenceSummaryToValueListener) {
+        private fun bindPreferenceSummaryToValue(preference: Preference, listener: PrefLis = sBindPreferenceSummaryToValueListener) {
             // Set the listener to watch for value changes.
             preference.onPreferenceChangeListener = listener
 
@@ -169,4 +162,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
                             .getString(preference.key, ""))
         }
     }
+
 }
+typealias PrefLis = Preference.OnPreferenceChangeListener

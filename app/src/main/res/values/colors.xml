@@ -6,7 +6,7 @@
     <color name="colorNumbersLight">#616161</color>
     <color name="colorActionsLight">#FF9800</color>
     <color name="colorOperatorsLight">#E64A19</color>
-    <color name="accent_material_dark">#009926</color>
+    <color name="colorWhite">#009926</color>
     <color name="colorNumbersDark">#616161</color>
     <color name="colorActionsDark">#689F38</color>
     <color name="colorOperatorsDark">#2E7D32</color>

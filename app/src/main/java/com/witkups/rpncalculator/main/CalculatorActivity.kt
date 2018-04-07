@@ -2,7 +2,6 @@ package com.witkups.rpncalculator.main
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceActivity
 import android.preference.PreferenceManager
@@ -10,11 +9,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import com.witkups.rpncalculator.*
-import com.witkups.rpncalculator.settings.AppCompatPreferenceActivity
+import com.witkups.rpncalculator.R
 import com.witkups.rpncalculator.settings.SettingsActivity
-import com.witkups.rpncalculator.settings.ThemeManager
+import com.witkups.rpncalculator.settings.updateTheme
+import com.witkups.rpncalculator.settings.updateThemeWithRecreate
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.content_calculator.*
 
@@ -28,11 +26,11 @@ class CalculatorActivity : AppCompatActivity() {
     private lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setPreferences()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
         setSupportActionBar(toolbar)
         attachButtons()
-        setPreferences()
     }
 
     private fun setPreferences() {
@@ -42,8 +40,7 @@ class CalculatorActivity : AppCompatActivity() {
         NumberValue.setRoundingMode(roundingMode)
         val precision = preferences.getString(NumberValue.PRECISION_KEY, "")
         NumberValue.setPrecision(precision)
-        val theme = preferences.getString(ThemeManager.THEME_PREF_KEY, ThemeManager.DEFAULT_THEME)
-        setTheme(ThemeManager.getTheme(theme))
+        updateTheme(false, preferences)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,10 +51,7 @@ class CalculatorActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SETTINGS_RESULT_CODE) {
-            val theme = preferences.getString(ThemeManager.THEME_PREF_KEY, ThemeManager.DEFAULT_THEME)
-            println("VALUE $theme")
-            setTheme(ThemeManager.getTheme(theme))
-            recreate()
+            updateThemeWithRecreate(false, preferences)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
