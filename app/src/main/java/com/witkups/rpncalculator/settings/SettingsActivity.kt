@@ -76,19 +76,27 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             bindPreferenceSummaryToValue(findPreference(NumberValue.PRECISION_KEY), Preference.OnPreferenceChangeListener {
                 pref, value ->
                 val strVal = value.toString()
+                NumberValue.setPrecision(strVal)
                 if (strVal.isBlank()) {
-                    NumberValue.precision = null
                     pref.summary = "Unlimited"
                 } else {
-                    NumberValue.precision = strVal.toInt()
                     pref.summary = strVal
                 }
                 true
             })
             bindPreferenceSummaryToValue(findPreference(NumberValue.ROUNDING_KEY), Preference.OnPreferenceChangeListener {
                 pref, value ->
-                val index = value.toString().toInt()
-                NumberValue.setRoundingMode(index)
+                NumberValue.setRoundingMode(value.toString())
+                true
+            })
+            bindPreferenceSummaryToValue(findPreference(ThemeManager.THEME_PREF_KEY), Preference.OnPreferenceChangeListener {
+                pref, value ->
+                val stringValue = value.toString()
+                if (pref is ListPreference) {
+                    val index = pref.findIndexOfValue(stringValue)
+                    pref.setSummary( if (index >= 0) pref.entries[index] else null)
+                }
+                activity.setTheme(ThemeManager.getTheme(stringValue))
                 true
             })
         }

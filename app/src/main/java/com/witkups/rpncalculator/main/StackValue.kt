@@ -12,16 +12,21 @@ data class NumberValue(val value: String = "") : StackValue() {
     companion object {
         const val PRECISION_KEY = "value_precision"
         const val ROUNDING_KEY = "rounding_mode"
-        const val DEFAULT_ROUNDING_MODE = 4
-        var precision: Int? = null
+        const val DEFAULT_ROUNDING_MODE = "4"
+        private var precision: Int? = null
         private var roundingMode: RoundingMode? = null
         private fun BigDecimal.align() =
                 if (precision != null) setScale(precision!!, roundingMode!!).stripTrailingZeros()
                 else this
 
-        fun setRoundingMode(index: Int) {
-            roundingMode = RoundingMode.valueOf(index)
+        fun setRoundingMode(index: String) {
+            roundingMode = RoundingMode.valueOf(index.toInt())
         }
+
+        fun setPrecision(value: String) {
+            precision = if(value.isBlank()) null else value.toInt()
+        }
+
     }
     constructor(value: BigDecimal) : this(value = value.align().stripTrailingZeros().toPlainString())
 

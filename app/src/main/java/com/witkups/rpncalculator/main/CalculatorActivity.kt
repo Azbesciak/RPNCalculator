@@ -1,6 +1,7 @@
 package com.witkups.rpncalculator.main
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceActivity
@@ -13,20 +14,36 @@ import android.widget.Button
 import com.witkups.rpncalculator.*
 import com.witkups.rpncalculator.settings.AppCompatPreferenceActivity
 import com.witkups.rpncalculator.settings.SettingsActivity
+import com.witkups.rpncalculator.settings.ThemeManager
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.content_calculator.*
 
 
 class CalculatorActivity : AppCompatActivity() {
 
+    companion object {
+        const val SETTINGS_RESULT_CODE = 10
+    }
+
+    private lateinit var preferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
         setSupportActionBar(toolbar)
         attachButtons()
-        val roundingMode = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                .getString(NumberValue.ROUNDING_KEY, NumberValue.DEFAULT_ROUNDING_MODE.toString())
-        NumberValue.setRoundingMode(roundingMode.toInt())
+        setPreferences()
+    }
+
+    private fun setPreferences() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val roundingMode = preferences
+                .getString(NumberValue.ROUNDING_KEY, NumberValue.DEFAULT_ROUNDING_MODE)
+        NumberValue.setRoundingMode(roundingMode)
+        val precision = preferences.getString(NumberValue.PRECISION_KEY, "")
+        NumberValue.setPrecision(precision)
+        val theme = preferences.getString(ThemeManager.THEME_PREF_KEY, ThemeManager.DEFAULT_THEME)
+        setTheme(ThemeManager.getTheme(theme))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -35,16 +52,23 @@ class CalculatorActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == SETTINGS_RESULT_CODE) {
+            val theme = preferences.getString(ThemeManager.THEME_PREF_KEY, ThemeManager.DEFAULT_THEME)
+            println("VALUE $theme")
+            setTheme(ThemeManager.getTheme(theme))
+            recreate()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment::class.java.name)
-                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true )
-                startActivity(intent)
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true)
+                startActivityForResult(intent, SETTINGS_RESULT_CODE)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -54,12 +78,8 @@ class CalculatorActivity : AppCompatActivity() {
     private fun attachButtons() {
         listOf(button0, button1, button2, button3, button4,
                 button5, button6, button7, button8, button9)
-                .forEachIndexed { i, btn ->
-                    applyTextIncrease(btn)
-                    StackOperator.attachOperator(btn, i.toString())
-                }
+                .forEachIndexed { i, btn -> StackOperator.attachOperator(btn, i.toString()) }
         StackOperator.attachOperator(buttonDecimal, ".")
-        applyTextIncrease(buttonDecimal)
         listOf(buttonMul to MulOperator, buttonSub to MinusOperator,
                 buttonDiv to DivOperator, buttonAdd to PlusOperator,
                 buttonEnter to EnterOperator, buttonSwap to SwapOperator,
@@ -67,22 +87,14 @@ class CalculatorActivity : AppCompatActivity() {
                 buttonAC to StackCleaner, buttonDrop to DropOperator,
                 buttonBackspace to BackSpaceOperator)
                 .forEach {
-                    applyTextIncrease(it.first)
                     StackOperator.attachOperator(it.first, it.second)
                 }
         StackOperator.attachOperator(buttonUndo, StackProvider::undo)
-        applyTextIncrease(buttonUndo)
         stackView.apply {
             layoutManager = LinearLayoutManager(this@CalculatorActivity)
             adapter = StackViewerAdapter(this@CalculatorActivity).apply {
                 StackProvider.registerListener(this::update)
             }
-        }
-    }
-
-    private fun applyTextIncrease(btn: Button) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            btn.setTextAppearance(R.style.ButtonFontStyle)
         }
     }
 }

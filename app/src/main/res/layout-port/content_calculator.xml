@@ -48,7 +48,7 @@
             android:layout_row="1"
             android:layout_rowSpan="4"
             android:layout_rowWeight="4"
-            android:background="@color/colorNumbers"
+            android:background="?colorNumbers"
             android:columnCount="3"
             android:rowCount="4">
 
@@ -185,7 +185,7 @@
             android:layout_row="1"
             android:layout_rowSpan="4"
             android:layout_rowWeight="4"
-            android:background="@color/colorOperators"
+            android:background="?colorOperators"
             android:columnCount="2"
             android:elevation="2dp"
             android:outlineProvider="bounds"
@@ -287,7 +287,7 @@
             android:layout_row="0"
             android:layout_rowSpan="1"
             android:layout_rowWeight="1"
-            android:background="@color/colorActions"
+            android:background="?colorActions"
             android:columnCount="4"
             android:rowCount="1">
 

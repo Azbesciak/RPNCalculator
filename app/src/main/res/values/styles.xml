@@ -6,24 +6,38 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="colorNumbers">@color/colorNumbersLight</item>
+        <item name="colorActions">@color/colorActionsLight</item>
+        <item name="colorOperators">@color/colorOperatorsLight</item>
+        <item name="buttonStyle">@style/ButtonFontStyle</item>
     </style>
-    <style name="ButtonFontStyle">
+    <style name="ButtonFontStyle" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">18sp</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <!--<style name="AppTheme">-->
+
+    <!--<style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
         <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
         <!--<item name="colorAccent">@color/colorAccent</item>-->
-
+        <!--<item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>-->
     <!--</style>-->
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar" >
+        <!--<item name="colorPrimary">@color/primary_material_dark</item>-->
+        <!--<item name="colorPrimaryDark">@color/primary_dark_material_dark</item>-->
+        <!--<item name="colorAccent">@color/accent_material_dark</item>-->
+        <item name="colorNumbers">@color/colorNumbersDark</item>
+        <item name="colorActions">@color/colorActionsDark</item>
+        <item name="colorOperators">@color/colorOperatorsDark</item>
+        <item name="buttonStyle">@style/ButtonFontStyle</item>
+    </style>
 
 </resources>
