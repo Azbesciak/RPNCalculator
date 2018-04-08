@@ -26,5 +26,11 @@ object StackProvider {
         }
     }
 
+    fun clear() {
+        stackHistory.clear()
+        stackHistory.add(RPNStack())
+        listener?.invoke(get())
+    }
+
     private fun get() = stackHistory.last()
 }

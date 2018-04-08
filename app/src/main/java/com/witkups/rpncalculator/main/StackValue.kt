@@ -136,10 +136,6 @@ object EnterOperator : StackValue() {
             else RPNStack(stack.items + NumberValue())
 }
 
-object StackCleaner : StackValue() {
-    override fun onVisit(stack: RPNStack) = RPNStack()
-}
-
 object DropOperator : StackValue() {
     override fun onVisit(stack: RPNStack) = RPNStack(stack.items.dropLast(1))
 }
