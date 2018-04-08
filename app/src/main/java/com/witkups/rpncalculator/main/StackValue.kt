@@ -13,6 +13,7 @@ data class NumberValue(val value: String = "") : StackValue() {
         const val PRECISION_KEY = "value_precision"
         const val ROUNDING_KEY = "rounding_mode"
         const val DEFAULT_ROUNDING_MODE = "4"
+        const val PRECISION_NOT_SET_LABEL = "Unlimited"
         private var precision: Int? = null
         private var roundingMode: RoundingMode? = null
         private fun BigDecimal.align() =
@@ -24,7 +25,7 @@ data class NumberValue(val value: String = "") : StackValue() {
         }
 
         fun setPrecision(value: String) {
-            precision = if(value.isBlank()) null else value.toInt()
+            precision = if (value.isBlank()) null else value.toInt()
         }
 
     }

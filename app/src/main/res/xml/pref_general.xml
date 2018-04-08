@@ -2,7 +2,6 @@
 
     <EditTextPreference
         android:capitalize="words"
-        android:defaultValue="@string/pref_default_value_precision"
         android:inputType="number"
         android:key="value_precision"
         android:maxLines="1"

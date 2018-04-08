@@ -123,7 +123,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
         private fun updatePrecision(pref: Preference, value: String) {
             if (value.isBlank()) {
-                pref.summary = "Unlimited"
+                pref.summary = NumberValue.PRECISION_NOT_SET_LABEL
             } else {
                 pref.summary = value
             }
