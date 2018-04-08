@@ -9,7 +9,7 @@ object ThemeManager {
     const val THEME_PREF_KEY = "app_theme"
     const val DEFAULT_THEME = "0"
     var currentTheme = 0
-    fun getTheme(index: String = currentTheme.toString()):Theme {
+    fun updateTheme(index: String = currentTheme.toString()):Theme {
         currentTheme = index.toInt()
         return Theme.values()[currentTheme]
     }
@@ -19,7 +19,7 @@ fun Activity.updateTheme(
         actionbar: Boolean,
         preferences: SharedPreferences = getDefaultSharedPreferences(applicationContext),
                          theme: String = preferences.getString(ThemeManager.THEME_PREF_KEY, ThemeManager.DEFAULT_THEME)) {
-    setTheme(ThemeManager.getTheme(theme).let { if (actionbar) it.themeId else it.noActionBar })
+    setTheme(ThemeManager.updateTheme(theme).let { if (actionbar) it.themeId else it.noActionBar })
 }
 
 fun Activity.updateThemeWithRecreate(actionbar: Boolean,

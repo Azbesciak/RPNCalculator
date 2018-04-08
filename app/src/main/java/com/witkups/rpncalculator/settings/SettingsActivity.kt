@@ -4,8 +4,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.ListPreference
@@ -13,14 +11,9 @@ import android.preference.Preference
 import android.preference.PreferenceActivity
 import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
-import android.preference.RingtonePreference
-import android.text.TextUtils
 import android.view.MenuItem
 import com.witkups.rpncalculator.R
 import com.witkups.rpncalculator.main.NumberValue
-import com.witkups.rpncalculator.main.StackValue
-import java.math.MathContext
-import java.math.RoundingMode
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
@@ -89,7 +82,8 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             bindPreferenceSummaryToValue(findPreference(ThemeManager.THEME_PREF_KEY), PrefLis { pref, value ->
                 val stringValue = value.toString()
                 updateSummaryForList(pref, stringValue)
-                activity.updateThemeWithRecreate(true, theme = stringValue)
+                ThemeManager.updateTheme(stringValue)
+                activity.recreate()
                 true
             })
         }

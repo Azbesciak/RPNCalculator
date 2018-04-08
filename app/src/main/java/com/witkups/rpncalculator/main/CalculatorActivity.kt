@@ -12,7 +12,6 @@ import android.view.MenuItem
 import com.witkups.rpncalculator.R
 import com.witkups.rpncalculator.settings.SettingsActivity
 import com.witkups.rpncalculator.settings.updateTheme
-import com.witkups.rpncalculator.settings.updateThemeWithRecreate
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.content_calculator.*
 
@@ -51,7 +50,7 @@ class CalculatorActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SETTINGS_RESULT_CODE) {
-            updateThemeWithRecreate(false, preferences)
+            recreate()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
